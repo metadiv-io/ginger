@@ -7,22 +7,22 @@ import (
 )
 
 type Engine struct {
-	GinEngine  *gin.Engine
-	CronEngine *cron.Cron
-}
-
-func (e *Engine) CORS(config cors.Config) {
-	e.GinEngine.Use(cors.New(config))
+	Gin  *gin.Engine
+	Cron *cron.Cron
 }
 
 func NewEngine() *Engine {
 	return &Engine{
-		GinEngine:  gin.Default(),
-		CronEngine: cron.New(),
+		Gin:  gin.Default(),
+		Cron: cron.New(),
 	}
 }
 
-func (e *Engine) Run(host string) {
-	e.CronEngine.Start()
-	e.GinEngine.Run(host)
+func (e *Engine) CORS(config cors.Config) {
+	e.Gin.Use(cors.New(config))
+}
+
+func (e *Engine) Run(addr ...string) error {
+	go e.Cron.Start()
+	return e.Gin.Run(addr...)
 }

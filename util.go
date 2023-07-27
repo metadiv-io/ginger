@@ -12,7 +12,8 @@ const (
 	tag_form = "form"
 )
 
-func ParseRequest[T any](ctx *gin.Context) *T {
+// GinRequest get the request from gin context
+func GinRequest[T any](ctx *gin.Context) *T {
 	objects := make([]T, 0)
 	tags := parseTags(new(T))
 
