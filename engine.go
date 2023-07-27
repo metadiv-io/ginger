@@ -1,25 +1,34 @@
 package ginger
 
 import (
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/robfig/cron"
 )
 
 type Engine struct {
-	Gin  *gin.Engine
-	Cron *cron.Cron
+	Gin        *gin.Engine
+	Cron       *cron.Cron
+	SystemUUID string
+	SystemName string
 }
 
-func NewEngine() *Engine {
+func NewEngine(uuid, name string) *Engine {
+	if uuid == "" {
+		panic("engine uuid is empty")
+	}
+	if name == "" {
+		panic("engine name is empty")
+	}
 	return &Engine{
-		Gin:  gin.Default(),
-		Cron: cron.New(),
+		Gin:        gin.Default(),
+		Cron:       cron.New(),
+		SystemUUID: uuid,
+		SystemName: name,
 	}
 }
 
-func (e *Engine) CORS(config cors.Config) {
-	e.Gin.Use(cors.New(config))
+func (e *Engine) CRON(spec string, job func()) {
+	e.Cron.AddFunc(spec, job)
 }
 
 func (e *Engine) Run(addr ...string) error {

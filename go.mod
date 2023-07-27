@@ -4,9 +4,9 @@ go 1.20
 
 require (
 	github.com/gin-contrib/cache v1.2.0
-	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/gorilla/websocket v1.5.0
+	github.com/matoous/go-nanoid v1.5.0
 	github.com/metadiv-io/sql v1.1.3
 	github.com/robfig/cron v1.2.0
 )

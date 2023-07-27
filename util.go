@@ -4,6 +4,7 @@ import (
 	"reflect"
 
 	"github.com/gin-gonic/gin"
+	gonanoid "github.com/matoous/go-nanoid"
 )
 
 const (
@@ -89,4 +90,15 @@ func updateObjectFromObjects[T any](objects []T) *T {
 
 	output := objectVal.Interface().(T)
 	return &output
+}
+
+func NewNanoID(prefix ...string) string {
+	id, err := gonanoid.Generate("2346789abcdefghijkmnpqrtwxyzABCDEFGHJKLMNPQRTUVWXYZ", 21)
+	if err != nil {
+		panic(err)
+	}
+	if len(prefix) > 0 {
+		return prefix[0] + id
+	}
+	return id
 }

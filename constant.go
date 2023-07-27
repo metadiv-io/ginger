@@ -11,3 +11,9 @@ const (
 	LOCALE_ZHT = "zht"
 	LOCALE_ZHS = "zhs"
 )
+
+const (
+	HEADER_TRACE_ID = "X-Trace-ID"
+	HEADER_LOCALE   = "X-Locale"
+	HEADER_TRACE    = "X-Trace"
+)
