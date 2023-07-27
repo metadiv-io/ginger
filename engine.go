@@ -27,11 +27,10 @@ func NewEngine(uuid, name string) *Engine {
 	}
 }
 
-func (e *Engine) CRON(spec string, job func()) {
-	e.Cron.AddFunc(spec, job)
-}
-
 func (e *Engine) Run(addr ...string) error {
 	go e.Cron.Start()
+	if len(addr) == 0 {
+		addr = []string{"127.0.0.1:5000"}
+	}
 	return e.Gin.Run(addr...)
 }
