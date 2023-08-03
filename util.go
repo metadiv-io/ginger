@@ -43,6 +43,16 @@ func parseTags[T any](request T) []string {
 	m := make(map[string]bool)
 
 	for i := 0; i < reflect.TypeOf(request).Elem().NumField(); i++ {
+		f := reflect.TypeOf(request).Elem().Field(i)
+
+		if f.Anonymous {
+			tags := parseTags(reflect.New(f.Type).Interface())
+			for _, tag := range tags {
+				m[tag] = true
+			}
+			continue
+		}
+
 		tag := reflect.TypeOf(request).Elem().Field(i).Tag
 		for _, key := range []string{tag_json, tag_form, tag_uri} {
 			value := tag.Get(key)
