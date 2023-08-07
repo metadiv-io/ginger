@@ -12,6 +12,11 @@ func (h Handler[T]) GinHandler(engine *Engine) gin.HandlerFunc {
 		c := NewContext[T](engine, ctx)
 		handler(c)
 
+		// if file is served, no need to respond
+		if c.IsResponded && c.IsFile {
+			return
+		}
+
 		// unexpected, service did not respond
 		if !c.IsResponded || c.Response == nil {
 			ctx.JSON(500, gin.H{

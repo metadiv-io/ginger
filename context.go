@@ -19,6 +19,7 @@ type Context[T any] struct {
 	Request     *T
 	Response    *types.Response
 	StartTime   time.Time
+	IsFile      bool
 	IsResponded bool
 }
 
@@ -159,4 +160,69 @@ func (ctx *Context[T]) Err(code string) {
 	}
 	ctx.Response.Calculate()
 	ctx.IsResponded = true
+}
+
+func (ctx *Context[T]) OKDownloadFile(bytes []byte, filename ...string) {
+	if ctx.IsResponded {
+		log.Println("Warning: context already responded")
+		return
+	}
+	name := ctx.determineFilename(filename...)
+	ctx.GinCtx.Header("Content-Disposition", "attachment; filename="+name)
+	ctx.GinCtx.Data(200, "application/octet-stream", bytes)
+	ctx.IsFile = true
+	ctx.IsResponded = true
+}
+
+func (ctx *Context[T]) OKServeFile(bytes []byte, filename ...string) {
+	if ctx.IsResponded {
+		log.Println("Warning: context already responded")
+		return
+	}
+	name := ctx.determineFilename(filename...)
+	ctx.GinCtx.Header("Content-Disposition", "attachment; filename="+name)
+	ctx.GinCtx.Data(200, ctx.determineContentType(name), bytes)
+	ctx.IsFile = true
+	ctx.IsResponded = true
+}
+
+func (ctx *Context[T]) determineFilename(filename ...string) string {
+	if len(filename) == 0 {
+		return NewNanoID()
+	}
+	if filename[0] == "" {
+		return NewNanoID()
+	}
+	return filename[0]
+}
+
+func (ctx *Context[T]) determineContentType(filename string) string {
+	var ext string
+	xs := strings.Split(filename, ".")
+	if len(xs) > 1 {
+		ext = xs[len(xs)-1]
+	}
+
+	switch ext {
+	case "png", "jpg", "jpeg", "gif", "bmp", "webp", "svg", "ico":
+		return "image/" + ext
+	case "pdf":
+		return "application/pdf"
+	case "doc", "docx":
+		return "application/msword"
+	case "xls", "xlsx":
+		return "application/vnd.ms-excel"
+	case "ppt", "pptx":
+		return "application/vnd.ms-powerpoint"
+	case "zip":
+		return "application/zip"
+	case "mp3":
+		return "audio/mpeg"
+	case "mp4":
+		return "video/mp4"
+	case "txt":
+		return "text/plain"
+	default:
+		return "application/octet-stream"
+	}
 }
