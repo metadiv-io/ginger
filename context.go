@@ -27,8 +27,10 @@ func NewContext[T any](engine *Engine, ginCtx *gin.Context) *Context[T] {
 	var page *sql.Pagination
 	var sort *sql.Sort
 	if ginCtx.Request.Method == "GET" {
-		page = GinRequest[sql.Pagination](ginCtx)
-		sort = GinRequest[sql.Sort](ginCtx)
+		page = new(sql.Pagination)
+		sort = new(sql.Sort)
+		ginCtx.ShouldBindQuery(page)
+		ginCtx.ShouldBindQuery(sort)
 	}
 	ctx := &Context[T]{
 		Engine:      engine,
