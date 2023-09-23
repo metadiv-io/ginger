@@ -79,7 +79,7 @@ func updateObjectFromObjects[T any](objects []T) *T {
 		val := reflect.ValueOf(o)
 		for i := 0; i < val.NumField(); i++ {
 			field := val.Field(i)
-			if !field.IsZero() {
+			if !field.IsZero() && objectVal.Field(i).CanSet() {
 				switch field.Kind() {
 				case reflect.String:
 					objectVal.Field(i).SetString(field.String())
