@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CRON(engine *Engine, spec string, job func()) {
-	engine.Cron.AddFunc(spec, job)
+func CRON(engine IEngine, spec string, job func()) {
+	engine.Cron().AddFunc(spec, job)
 }
 
 func GET[T any](engine IEngine, route string, handler Handler[T], middleware ...gin.HandlerFunc) {
