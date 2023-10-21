@@ -5,6 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/metadiv-io/ginger/internal/context"
+	"github.com/metadiv-io/ginger/internal/engine"
 	"github.com/metadiv-io/sql"
 )
 
@@ -19,7 +21,7 @@ type MockContextParams[T any] struct {
 	Headers   map[string]string
 }
 
-func MockContext[T any](params MockContextParams[T]) *Context[T] {
+func MockContext[T any](params MockContextParams[T]) IContext[T] {
 	w := httptest.NewRecorder()
 	ctx, e := gin.CreateTestContext(w)
 
@@ -50,14 +52,15 @@ func MockContext[T any](params MockContextParams[T]) *Context[T] {
 		}
 	}
 
-	return &Context[T]{
-		GinCtx: ctx,
-		Engine: &Engine{
-			Gin: e,
-		},
-		Request:   params.Request,
-		Page:      params.Page,
-		Sort:      params.Sort,
-		StartTime: time.Now(),
-	}
+	return context.NewContext[T](
+		engine.NewMockEngine(e),
+		ctx,
+		params.Page,
+		params.Sort,
+		params.Request,
+		nil,
+		time.Now(),
+		false,
+		false,
+	)
 }

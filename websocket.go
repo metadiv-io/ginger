@@ -8,11 +8,11 @@ import (
 	"github.com/metadiv-io/ginger/types"
 )
 
-type WsService[T any] func(ctx *Context[T]) *types.Error
+type WsService[T any] func(ctx IContext[T]) *types.Error
 
 type WsHandler[T any] func() WsService[T]
 
-func (h WsHandler[T]) GinHandler(engine *Engine) gin.HandlerFunc {
+func (h WsHandler[T]) GinHandler(engine IEngine) gin.HandlerFunc {
 	wsUpGrader := websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
 			return true
