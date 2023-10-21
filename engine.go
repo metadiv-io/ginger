@@ -2,7 +2,7 @@ package ginger
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/metadiv-io/ginger/internal/engine"
+	"github.com/metadiv-io/ginger/engine"
 	"github.com/robfig/cron"
 )
 

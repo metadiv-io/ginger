@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/metadiv-io/ginger/internal/engine"
+	"github.com/metadiv-io/ginger/engine"
 	"github.com/metadiv-io/ginger/types"
 	"github.com/metadiv-io/sql"
 )
