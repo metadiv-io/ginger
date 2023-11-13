@@ -2,12 +2,10 @@ package ginger
 
 import (
 	"net/http/httptest"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/metadiv-io/ginger/context"
-	"github.com/metadiv-io/ginger/engine"
 	"github.com/metadiv-io/sql"
+	"github.com/robfig/cron"
 )
 
 type MockContextParams[T any] struct {
@@ -52,15 +50,13 @@ func MockContext[T any](params MockContextParams[T]) IContext[T] {
 		}
 	}
 
-	return context.NewContext[T](
-		engine.NewMockEngine(e),
+	mockEngine := &Engine{
+		Gin:  e,
+		Cron: cron.New(),
+	}
+
+	return NewContext[T](
+		mockEngine,
 		ctx,
-		params.Page,
-		params.Sort,
-		params.Request,
-		nil,
-		time.Now(),
-		false,
-		false,
 	)
 }

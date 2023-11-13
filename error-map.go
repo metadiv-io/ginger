@@ -1,26 +1,29 @@
 package ginger
 
-import (
-	"github.com/metadiv-io/ginger/internal/constant"
-	"github.com/metadiv-io/ginger/internal/err_map"
+const (
+	locale_default = "default"
 )
 
+var errMapObj = errMap{}
+
+type errMap map[string]map[string]string
+
 func RegisterError(code, locale, message string) {
-	if _, ok := err_map.ErrMap[locale]; !ok {
-		err_map.ErrMap[locale] = make(map[string]string)
+	if _, ok := errMapObj[locale]; !ok {
+		errMapObj[locale] = make(map[string]string)
 	}
-	err_map.ErrMap[locale][code] = message
+	errMapObj[locale][code] = message
 }
 
-func GetError(code, locale string) string {
-	if locale == "" {
-		locale = constant.LOCALE_EN
+func GetError(code string, locale ...string) string {
+	if len(locale) == 0 {
+		locale = append(locale, locale_default)
 	}
-	if _, ok := err_map.ErrMap[locale]; !ok {
+	if _, ok := errMapObj[locale[1]]; !ok {
 		return ""
 	}
-	if _, ok := err_map.ErrMap[locale][code]; !ok {
+	if _, ok := errMapObj[locale[1]][code]; !ok {
 		return ""
 	}
-	return err_map.ErrMap[locale][code]
+	return errMapObj[locale[1]][code]
 }

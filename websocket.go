@@ -5,10 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/metadiv-io/ginger/types"
 )
 
-type WsService[T any] func(ctx IContext[T]) *types.Error
+type WsService[T any] func(ctx IContext[T]) *Error
 
 type WsHandler[T any] func() WsService[T]
 
