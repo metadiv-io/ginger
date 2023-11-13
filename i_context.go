@@ -42,6 +42,8 @@ type IContext[T any] interface {
 	SetSort(sort *sql.Sort)
 	GetResponse() *Response
 	SetResponse(resp *Response)
+	GetRequest() *T
+	SetRequest(req *T)
 
 	GetStartTime() time.Time
 	SetStartTime(startTime time.Time)
