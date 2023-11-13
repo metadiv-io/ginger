@@ -55,4 +55,7 @@ type IContext[T any] interface {
 	ClientIP() string
 	UserAgent() string
 	BearerToken() string
+
+	OK(data any, page ...*sql.Pagination)
+	Err(code string, locale ...string)
 }

@@ -129,7 +129,7 @@ func (ctx *Context[T]) OK(data any, page ...*sql.Pagination) {
 	ctx.SetIsResponded(true)
 }
 
-func (ctx *Context[T]) Err(code string, message string) {
+func (ctx *Context[T]) Err(code string, locale ...string) {
 	if ctx.IsResp {
 		log.Println("Warning: context already responded")
 		return
@@ -139,7 +139,7 @@ func (ctx *Context[T]) Err(code string, message string) {
 		Duration: time.Since(ctx.StartTime).Milliseconds(),
 		Error: &Error{
 			Code:    code,
-			Message: message,
+			Message: GetError(code, locale...),
 		},
 	})
 	ctx.SetIsResponded(true)
