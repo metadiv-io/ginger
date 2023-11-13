@@ -25,3 +25,8 @@ func (e *Engine) SetGin(g *gin.Engine) {
 func (e *Engine) SetCron(c *cron.Cron) {
 	e.Cron = c
 }
+
+func (e *Engine) Run(addr ...string) {
+	go e.Cron.Start()
+	e.Gin.Run(addr...)
+}

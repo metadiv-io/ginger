@@ -17,4 +17,5 @@ type IEngine interface {
 	GetCron() *cron.Cron
 	SetGin(g *gin.Engine)
 	SetCron(c *cron.Cron)
+	Run(addr ...string)
 }
