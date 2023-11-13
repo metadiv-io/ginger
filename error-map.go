@@ -12,21 +12,21 @@ func RegisterError(code, message string, locale ...string) {
 	if len(locale) == 0 {
 		locale = append(locale, locale_default)
 	}
-	if _, ok := errMapObj[locale[1]]; !ok {
-		errMapObj[locale[1]] = make(map[string]string)
+	if _, ok := errMapObj[locale[0]]; !ok {
+		errMapObj[locale[0]] = make(map[string]string)
 	}
-	errMapObj[locale[1]][code] = message
+	errMapObj[locale[0]][code] = message
 }
 
 func GetError(code string, locale ...string) string {
 	if len(locale) == 0 {
 		locale = append(locale, locale_default)
 	}
-	if _, ok := errMapObj[locale[1]]; !ok {
+	if _, ok := errMapObj[locale[0]]; !ok {
 		return ""
 	}
-	if _, ok := errMapObj[locale[1]][code]; !ok {
+	if _, ok := errMapObj[locale[0]][code]; !ok {
 		return ""
 	}
-	return errMapObj[locale[1]][code]
+	return errMapObj[locale[0]][code]
 }
