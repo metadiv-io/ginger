@@ -38,5 +38,8 @@ func (h ApiHandler[T]) GinHandler(engine IEngine) gin.HandlerFunc {
 			})
 			return
 		}
+
+		// error
+		ctx.JSON(400, c.GetResponse())
 	}
 }
