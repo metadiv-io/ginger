@@ -55,8 +55,9 @@ func MockContext[T any](params MockContextParams[T]) IContext[T] {
 		Cron: cron.New(),
 	}
 
-	return NewContext[T](
-		mockEngine,
-		ctx,
-	)
+	mockCtx := NewContext[T](mockEngine, ctx)
+	mockCtx.SetRequest(params.Request)
+	mockCtx.SetPage(params.Page)
+	mockCtx.SetSort(params.Sort)
+	return mockCtx
 }
