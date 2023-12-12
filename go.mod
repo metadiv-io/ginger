@@ -1,11 +1,12 @@
 module github.com/metadiv-io/ginger
 
-go 1.20
+go 1.21.3
 
 require (
 	github.com/gin-contrib/cache v1.2.0
 	github.com/gin-gonic/gin v1.9.0
 	github.com/gorilla/websocket v1.5.0
+	github.com/metadiv-io/nanoid v1.0.0
 	github.com/metadiv-io/sql v1.1.3
 	github.com/robfig/cron v1.2.0
 )
@@ -26,6 +27,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
+	github.com/matoous/go-nanoid v1.5.0 // indirect
 	github.com/mattn/go-isatty v0.0.17 // indirect
 	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	github.com/memcachier/mc/v3 v3.0.3 // indirect

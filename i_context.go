@@ -57,5 +57,7 @@ type IContext[T any] interface {
 	BearerToken() string
 
 	OK(data any, page ...*sql.Pagination)
+	OKFile(bytes []byte, filename ...string)
+	OKDownload(bytes []byte, filename ...string)
 	Err(code string, locale ...string)
 }
